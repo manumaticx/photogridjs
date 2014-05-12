@@ -32,10 +32,17 @@ var OS_IOS = 'iPhone OS' === Ti.Platform.name, OS_ANDROID = 'android' === Ti.Pla
  * @param {Object} args
  * @return {Ti.UI.ScrollView} gridView
  */
-exports.createGrid = function(_args) {
+exports.createWindow = function(_args) {
     var args = _args || {},
 
-    // the grid container view
+    // the grid container window
+    gridWindow = Ti.UI.createWindow({
+        width: Ti.UI.FILL,
+        height: Ti.UI.FILL,
+        orientations: [Ti.UI.PORTRAIT, Ti.UI.LANDSCAPE_LEFT, Ti.UI.LANDSCAPE_RIGHT]
+    }),
+
+    // the grid view
     gridView = Ti.UI.createScrollView({
         width : Ti.UI.FILL,
         height : Ti.UI.FILL,
@@ -80,7 +87,7 @@ exports.createGrid = function(_args) {
 
     // add orientation change listener and remove it when done
     Ti.Gesture.addEventListener('orientationchange', onOrientationChange);
-    gridView.addEventListener('close', function() {
+    gridWindow.addEventListener('close', function() {
         Ti.Gesture.removeEventListener('orientationchange', onOrientationChange);
     });
 
@@ -213,18 +220,20 @@ exports.createGrid = function(_args) {
 
         var newSize = getThumbSize();
 
-        gridView.getChildren().each(function(itemView) {
+        gridView.getChildren().forEach(function(itemView) {
             itemView.setWidth(newSize);
             itemView.setHeight(newSize);
         });
     };
 
-    // gridView methods
-    gridView.setData = setData;
-    gridView.addItem = addItem;
-    gridView.clearGrid = clearGrid;
+    gridWindow.add(gridView);
 
-    return gridView;
+    // gridWindow methods
+    gridWindow.setData = setData;
+    gridWindow.addItem = addItem;
+    gridWindow.clearGrid = clearGrid;
+
+    return gridWindow;
 };
 
 /**
