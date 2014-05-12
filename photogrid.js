@@ -167,7 +167,7 @@ exports.createWindow = function(_args) {
 
         if (gridView.children.length > 0) {
 
-            gridView.getChildren().each(function(itemView) {
+            gridView.getChildren().forEach(function(itemView) {
                 itemView.removeEventListener('click', onItemSelected);
                 gridView.remove(itemView);
                 itemView = null;
@@ -261,7 +261,7 @@ function createDetailWindow(_args) {
 
     // create imageViews for the data (if passed)
     if (args.hasOwnProperty('data')) {
-        args.data.each(function(photo) {
+        args.data.forEach(function(photo) {
             var photoView = Ti.UI.createImageView({
                 width : Ti.UI.FILL,
                 height : Ti.UI.SIZE,
